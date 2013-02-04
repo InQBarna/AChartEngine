@@ -87,10 +87,7 @@ public class LineChart extends XYChart {
     if (fillOutsideLine != FillOutsideLine.NONE) {
       paint.setColor(renderer.getFillBelowLineColor());
       // TODO: find a way to do area charts without duplicating data
-      List<Float> fillPoints = new ArrayList<Float>();
-      for (Float p : points) {
-        fillPoints.add(p);
-      }
+      List<Float> fillPoints = new ArrayList<Float>(points);
       final float referencePoint;
       switch (fillOutsideLine) {
       case INTEGRAL:
