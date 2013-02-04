@@ -25,7 +25,7 @@ import android.graphics.Color;
 public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /** If the chart points should be filled. */
   private boolean mFillPoints = false;
-  /** If the chart should be filled below its line. */
+  /** If the chart should be filled outside its line. */
   private FillOutsideLine mFillBelowLine = FillOutsideLine.NONE;
   /** The fill below the chart line color. */
   private int mFillColor = Color.argb(125, 0, 0, 200);
