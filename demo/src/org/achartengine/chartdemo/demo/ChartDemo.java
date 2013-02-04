@@ -33,6 +33,7 @@ import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
 import org.achartengine.chartdemo.demo.chart.SalesBarChart;
 import org.achartengine.chartdemo.demo.chart.SalesComparisonChart;
 import org.achartengine.chartdemo.demo.chart.SalesGrowthChart;
+import org.achartengine.chartdemo.demo.chart.SalesGrowthStyledChart;
 import org.achartengine.chartdemo.demo.chart.SalesStackedBarChart;
 import org.achartengine.chartdemo.demo.chart.ScatterChart;
 import org.achartengine.chartdemo.demo.chart.SensorValuesChart;
@@ -55,7 +56,7 @@ public class ChartDemo extends ListActivity {
       new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(),
       new BudgetDoughnutChart(), new ProjectStatusBubbleChart(), new TemperatureChart(),
       new WeightDialChart(), new SensorValuesChart(), new CombinedTemperatureChart(),
-      new MultipleTemperatureChart() };
+      new MultipleTemperatureChart(), new SalesGrowthStyledChart() };
 
   private String[] mMenuText;
 
