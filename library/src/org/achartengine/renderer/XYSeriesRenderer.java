@@ -26,7 +26,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /** If the chart points should be filled. */
   private boolean mFillPoints = false;
   /** If the chart should be filled below its line. */
-  private boolean mFillBelowLine = false;
+  private FillOutsideLine mFillBelowLine = FillOutsideLine.NONE;
   /** The fill below the chart line color. */
   private int mFillColor = Color.argb(125, 0, 0, 200);
   /** The point style. */
@@ -34,13 +34,20 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /** The chart line width. */
   private float mLineWidth = 1;
 
+  public enum FillOutsideLine {
+    NONE, INTEGRAL, BELLOW, ABOVE;
+  }
+
   /**
    * Returns if the chart should be filled below the line.
    * 
    * @return the fill below line status
+   * 
+   * @deprecated Use {@link #getFillOutsideLine()} instead.
    */
+  @Deprecated
   public boolean isFillBelowLine() {
-    return mFillBelowLine;
+    return mFillBelowLine != FillOutsideLine.NONE;
   }
 
   /**
@@ -48,8 +55,31 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * line transforms a line chart into an area chart.
    * 
    * @param fill the fill below line flag value
+   * 
+   * @deprecated Use {@link #setFillOutsideLine(FillOutsideLine)} instead.
    */
+  @Deprecated
   public void setFillBelowLine(boolean fill) {
+    mFillBelowLine = fill ? FillOutsideLine.INTEGRAL : FillOutsideLine.NONE;
+  }
+
+  /**
+   * Returns the type of the outside fill of the line.
+   * 
+   * @return the type of the outside fill of the line.
+   */
+  public FillOutsideLine getFillOutsideLine() {
+    return mFillBelowLine;
+  }
+
+  /**
+   * Sets if the line chart should be filled outside its line. Filling outside
+   * with FillOutsideLine.INTEGRAL the line transforms a line chart into an area
+   * chart.
+   * 
+   * @param the type of the filling
+   */
+  public void setFillOutsideLine(FillOutsideLine fill) {
     mFillBelowLine = fill;
   }
 
@@ -124,5 +154,5 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public void setLineWidth(float lineWidth) {
     mLineWidth = lineWidth;
   }
-  
+
 }

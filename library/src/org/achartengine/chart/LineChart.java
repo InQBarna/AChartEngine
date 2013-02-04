@@ -22,6 +22,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -82,16 +83,31 @@ public class LineChart extends XYChart {
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     float lineWidth = paint.getStrokeWidth();
     paint.setStrokeWidth(renderer.getLineWidth());
-    if (renderer.isFillBelowLine()) {
+    final FillOutsideLine fillOutsideLine = renderer.getFillOutsideLine();
+    if (fillOutsideLine != FillOutsideLine.NONE) {
       paint.setColor(renderer.getFillBelowLineColor());
       // TODO: find a way to do area charts without duplicating data
       List<Float> fillPoints = new ArrayList<Float>();
       for (Float p : points) {
         fillPoints.add(p);
       }
+      final float referencePoint;
+      switch (fillOutsideLine) {
+      case INTEGRAL:
+        referencePoint = yAxisValue;
+        break;
+      case BELLOW:
+        referencePoint = canvas.getHeight();
+        break;
+      case ABOVE:
+        referencePoint = 0;
+        break;
+      default:
+        throw new RuntimeException("You have added a new type of filling but have not implemented.");
+      }
       fillPoints.set(0, points.get(0) + 1);
       fillPoints.add(fillPoints.get(length - 2));
-      fillPoints.add(yAxisValue);
+      fillPoints.add(referencePoint);
       fillPoints.add(fillPoints.get(0));
       fillPoints.add(fillPoints.get(length + 1));
       for (int i = 0; i < length + 4; i += 2) {
