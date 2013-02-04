@@ -25,6 +25,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 /**
  * The combined XY chart rendering class.
@@ -107,6 +108,8 @@ public class CombinedXYChart extends XYChart {
    * The graphical representation of a series.
    * 
    * @param canvas the canvas to paint to
+   * @param top the highest pixel to draw series.
+   * @param bottom the lowest pixel to draw series.
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesRenderer the series renderer
@@ -114,12 +117,13 @@ public class CombinedXYChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
+  @Override
+  public void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     mCharts[seriesIndex].setScreenR(getScreenR());
     mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
         .getScaleNumber()), 0);
-    mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0,
+    mCharts[seriesIndex].drawSeries(canvas, top, bottom, paint, points, seriesRenderer, yAxisValue, 0,
         startIndex);
   }
 

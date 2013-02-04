@@ -27,8 +27,16 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private boolean mFillPoints = false;
   /** If the chart should be filled outside its line. */
   private FillOutsideLine mFillBelowLine = FillOutsideLine.NONE;
-  /** The fill below the chart line color. */
+  /**
+   * If gradient is false is the solid color to fill the outside of the line.
+   * Otherwise It's the top color of the gradient to fill the outside of the
+   * line.
+   */
   private int mFillColor = Color.argb(125, 0, 0, 200);
+  /** The bottom color of the gradient to fill the outside of the line. */
+  private int mFillColorBottom = Color.argb(255, 0, 0, 255);
+  /** If the outside of the line should be filled with a gradient or not. */
+  private boolean gradient = false;
   /** The point style. */
   private PointStyle mPointStyle = PointStyle.POINT;
   /** The chart line width. */
@@ -66,7 +74,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /**
    * Returns the type of the outside fill of the line.
    * 
-   * @return the type of the outside fill of the line.
+   * @return the type of the outside fill of the line
    */
   public FillOutsideLine getFillOutsideLine() {
     return mFillBelowLine;
@@ -81,6 +89,24 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    */
   public void setFillOutsideLine(FillOutsideLine fill) {
     mFillBelowLine = fill;
+  }
+
+  /**
+   * Returns if the chart should be filled with a gradient
+   * 
+   * @return if the outside of the line should be filled with a gradient or not
+   */
+  public boolean isFillOutsideLineGradient() {
+    return gradient;
+  }
+
+  /**
+   * Sets if the line chart should be filled outside its line with a gradient.
+   * 
+   * @param if the outside of the line should be filled with a gradient or not
+   */
+  public void setFillOutsideLineGradient(boolean gradient) {
+    this.gradient = gradient;
   }
 
   /**
@@ -105,7 +131,10 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * Returns the fill below line color.
    * 
    * @return the fill below line color
+   * 
+   * @deprecated Use {@link #getFillOutsideLineColor()} instead.
    */
+  @Deprecated
   public int getFillBelowLineColor() {
     return mFillColor;
   }
@@ -114,9 +143,52 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * Sets the fill below the line color.
    * 
    * @param color the fill below line color
+   * 
+   * @deprecated Use {@link #setFillOutsideLineColor(int)} instead.
    */
+  @Deprecated
   public void setFillBelowLineColor(int color) {
     mFillColor = color;
+  }
+
+  /**
+   * If {@link #isFillOutsideLineGradient()} is false it's the solid color to
+   * fill the outside of the line. Otherwise it's the top color of the gradient
+   * to fill the outside of the line.
+   * 
+   * @return the color
+   */
+  public int getFillOutsideLineColor() {
+    return mFillColor;
+  }
+
+  /**
+   * If {@link #isFillOutsideLineGradient()} is false it sets the solid color to
+   * fill the outside of the line. Otherwise it sets the top color of the
+   * gradient to fill the outside of the line.
+   * 
+   * @param color the fill below line color
+   */
+  public void setFillOutsideLineColor(int color) {
+    mFillColor = color;
+  }
+
+  /**
+   * The bottom color of the gradient to fill the outside of the line.
+   * 
+   * @return the color
+   */
+  public int getFillOutsideLineColorBottom() {
+    return mFillColorBottom;
+  }
+
+  /**
+   * It sets the bottom color of the gradient to fill the outside of the line.
+   * 
+   * @param color the fill below line color
+   */
+  public void setFillOutsideLineColorBottom(int color) {
+    mFillColorBottom = color;
   }
 
   /**

@@ -25,9 +25,12 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
 
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Shader.TileMode;
 import android.graphics.RectF;
+import android.graphics.Shader;
 
 /**
  * The line chart rendering class.
@@ -70,6 +73,8 @@ public class LineChart extends XYChart {
    * The graphical representation of a series.
    * 
    * @param canvas the canvas to paint to
+   * @param top the highest pixel to draw series.
+   * @param bottom the lowest pixel to draw series.
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesRenderer the series renderer
@@ -77,7 +82,8 @@ public class LineChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
+  @Override
+  public void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int length = points.size();
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
@@ -94,10 +100,10 @@ public class LineChart extends XYChart {
         referencePoint = yAxisValue;
         break;
       case BELOW:
-        referencePoint = canvas.getHeight();
+        referencePoint = bottom;
         break;
       case ABOVE:
-        referencePoint = 0;
+        referencePoint = top;
         break;
       default:
         throw new RuntimeException("You have added a new type of filling but have not implemented.");
@@ -113,7 +119,17 @@ public class LineChart extends XYChart {
         }
       }
       paint.setStyle(Style.FILL);
+      boolean gradient = renderer.isFillOutsideLineGradient();
+      Shader shader = null;
+      if (gradient) {
+        shader = paint.getShader();
+        paint.setShader(new LinearGradient(0, top, 0, bottom, renderer.getFillOutsideLineColor(),
+            renderer.getFillOutsideLineColorBottom(), TileMode.CLAMP));
+      }
       drawPath(canvas, fillPoints, paint, true);
+      if (gradient) {
+        paint.setShader(shader);
+      }
     }
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.STROKE);

@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.model.TimeSeries;
-import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
@@ -82,7 +80,10 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     renderer.setYLabels(10);
     renderer.setXRoundedLabels(false);
     XYSeriesRenderer xyRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
-    xyRenderer.setFillOutsideLine(FillOutsideLine.ABOVE);
+    xyRenderer.setFillOutsideLine(FillOutsideLine.BELOW);
+    xyRenderer.setFillOutsideLineGradient(true);
+    xyRenderer.setFillOutsideLineColor(0x80000000);
+    xyRenderer.setFillOutsideLineColorBottom(0xff0000ff);
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MMM yyyy");
   }
