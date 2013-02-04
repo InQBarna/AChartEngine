@@ -93,7 +93,7 @@ public class LineChart extends XYChart {
       case INTEGRAL:
         referencePoint = yAxisValue;
         break;
-      case BELLOW:
+      case BELOW:
         referencePoint = canvas.getHeight();
         break;
       case ABOVE:

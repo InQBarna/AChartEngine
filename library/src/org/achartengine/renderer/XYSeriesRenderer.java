@@ -35,7 +35,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private float mLineWidth = 1;
 
   public enum FillOutsideLine {
-    NONE, INTEGRAL, BELLOW, ABOVE;
+    NONE, INTEGRAL, BELOW, ABOVE;
   }
 
   /**
