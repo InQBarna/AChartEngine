@@ -64,7 +64,7 @@ public class MathHelper {
    * @param start start value
    * @param end final value
    * @param approxNumLabels desired number of labels
-   * @return collection containing {start value, end value, increment}
+   * @return collection containing the label values
    */
   public static List<Double> getLabels(final double start, final double end,
       final int approxNumLabels) {
