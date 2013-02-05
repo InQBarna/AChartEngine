@@ -78,7 +78,8 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     setChartSettings(renderer, "Sales growth", "Date", "%", dateValues[0].getTime(),
         dateValues[dateValues.length - 1].getTime(), -4, 11, Color.GRAY, Color.LTGRAY);
     renderer.setYLabels(10);
-    renderer.setXRoundedLabels(false);
+    renderer.setXLabelMinimumDistance(3. * 30. * 24. * 60. * 60. * 1000.);
+    renderer.setYLabelMinimumDistance(0.01, 0);
     XYSeriesRenderer xyRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
     xyRenderer.setFillOutsideLine(FillOutsideLine.BELOW);
     xyRenderer.setFillOutsideLineGradient(true);

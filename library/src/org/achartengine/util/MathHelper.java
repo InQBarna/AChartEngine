@@ -67,10 +67,10 @@ public class MathHelper {
    * @return collection containing the label values
    */
   public static List<Double> getLabels(final double start, final double end,
-      final int approxNumLabels) {
+      final int approxNumLabels, double minimumJump) {
     FORMAT.setMaximumFractionDigits(5);
     List<Double> labels = new ArrayList<Double>();
-    double[] labelParams = computeLabels(start, end, approxNumLabels);
+    double[] labelParams = computeLabels(start, end, approxNumLabels, minimumJump);
     // when the start > end the inc will be negative so it will still work
     int numLabels = 1 + (int) ((labelParams[1] - labelParams[0]) / labelParams[2]);
     // we want the range to be inclusive but we don't want to blow up when
@@ -100,7 +100,7 @@ public class MathHelper {
    * @return double[] array containing {start value, end value, increment}
    */
   private static double[] computeLabels(final double start, final double end,
-      final int approxNumLabels) {
+      final int approxNumLabels, double minimumJump) {
     if (Math.abs(start - end) < 0.0000001f) {
       return new double[] { start, start, 0 };
     }
@@ -113,7 +113,7 @@ public class MathHelper {
       s = e;
       e = tmp;
     }
-    double xStep = roundUp(Math.abs(s - e) / approxNumLabels);
+    double xStep = roundUp(Math.max(Math.abs(s - e) / approxNumLabels, minimumJump));
     // Compute x starting point so it is a multiple of xStep.
     double xStart = xStep * Math.ceil(s / xStep);
     double xEnd = xStep * Math.floor(e / xStep);

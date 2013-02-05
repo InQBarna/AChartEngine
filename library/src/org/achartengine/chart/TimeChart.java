@@ -152,7 +152,8 @@ public class TimeChart extends LineChart {
     return TYPE;
   }
 
-  protected List<Double> getXLabels(double min, double max, int count) {
+  @Override
+  protected List<Double> getXLabels(double min, double max, int count, double minimumDistance) {
     final List<Double> result = new ArrayList<Double>();
     if (!mRenderer.isXRoundedLabels()) {
       if (mDataset.getSeriesCount() > 0) {
@@ -186,7 +187,7 @@ public class TimeChart extends LineChart {
         }
         return result;
       } else {
-        return super.getXLabels(min, max, count);
+        return super.getXLabels(min, max, count, mRenderer.getXLabelMinimumDistance());
       }
     }
     if (mStartPoint == null) {
@@ -198,7 +199,7 @@ public class TimeChart extends LineChart {
     }
 
     
-    final double cycleMath = (max - min) / count;
+    final double cycleMath = Math.max((max - min) / count, minimumDistance);
     if (cycleMath <= 0) {
       return result;
     }

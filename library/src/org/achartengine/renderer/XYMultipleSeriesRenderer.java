@@ -104,6 +104,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mXRoundedLabels = true;
   /** The label format. */
   private NumberFormat mLabelFormat;
+  /** The minimum distance between two labels in the axis X */
+  private double mXLabelMinimumDistance = 0;
+  /** The minimum distance between two labels in the axis Y */
+  private double[] mYLabelMinimumDistance;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -145,6 +149,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mMaxX = new double[scales];
     mMinY = new double[scales];
     mMaxY = new double[scales];
+    mYLabelMinimumDistance = new double[scales];
     for (int i = 0; i < scales; i++) {
       mYLabelsColor[i] = TEXT_COLOR;
       initAxesRangeForScale(i);
@@ -774,7 +779,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mPanXEnabled = enabledX;
     mPanYEnabled = enabledY;
   }
-  
+
   /**
    * Override {@link DefaultRenderer#setPanEnabled(boolean)} so it can be
    * delegated to {@link #setPanEnabled(boolean, boolean)}.
@@ -1142,7 +1147,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns the X labels padding.
-   *
+   * 
    * @return X labels padding
    */
   public float getXLabelsPadding() {
@@ -1150,17 +1155,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the X labels padding
-    *
-    * @param padding the amount of padding between the axis and the label
-    */
+   * Sets the X labels padding
+   * 
+   * @param padding the amount of padding between the axis and the label
+   */
   public void setXLabelsPadding(float padding) {
     mXLabelsPadding = padding;
   }
 
   /**
    * Returns the Y labels padding.
-   *
+   * 
    * @return Y labels padding
    */
   public float getYLabelsPadding() {
@@ -1168,17 +1173,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the Y labels vertical padding
-    *
-    * @param padding the amount of vertical padding
-    */
+   * Sets the Y labels vertical padding
+   * 
+   * @param padding the amount of vertical padding
+   */
   public void setYLabelsVerticalPadding(float padding) {
     mYLabelsVerticalPadding = padding;
   }
 
   /**
    * Returns the Y labels vertical padding.
-   *
+   * 
    * @return Y labels vertical padding
    */
   public float getYLabelsVerticalPadding() {
@@ -1186,10 +1191,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the Y labels padding
-    *
-    * @param padding the amount of padding between the axis and the label
-    */
+   * Sets the Y labels padding
+   * 
+   * @param padding the amount of padding between the axis and the label
+   */
   public void setYLabelsPadding(float padding) {
     mYLabelsPadding = padding;
   }
@@ -1212,8 +1217,47 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mLabelFormat = format;
   }
 
+  /**
+   * The minimum distance between two labels in the axis X
+   * 
+   * The minimum distance between two labels in the axis X
+   */
+  public double getXLabelMinimumDistance() {
+    return mXLabelMinimumDistance;
+  }
+
+  /**
+   * Sets the minimum distance between two labels in the axis X
+   * 
+   * @param minimumDistance the minimum distance between two labels in the axis
+   *          X
+   */
+  public void setXLabelMinimumDistance(double minimumDistance) {
+    mXLabelMinimumDistance = minimumDistance;
+  }
+
+  /**
+   * The minimum distance between two labels in the axis Y
+   * 
+   * @param scale the renderer scale
+   * @return The minimum distance between two labels in the axis Y
+   */
+  public double getYLabelMinimumDistance(int scale) {
+    return mYLabelMinimumDistance[scale];
+  }
+
+  /**
+   * Sets the minimum distance between two labels in the axis Y
+   * 
+   * @param minimumDistance the minimum distance between two labels in the axis
+   *          Y
+   * @param scale the renderer scale
+   */
+  public void setYLabelMinimumDistance(double minimumDistance, int scale) {
+    mYLabelMinimumDistance[scale] = minimumDistance;
+  }
+
   public int getScalesCount() {
     return scalesCount;
   }
-
 }

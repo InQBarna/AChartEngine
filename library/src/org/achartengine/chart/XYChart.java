@@ -334,8 +334,12 @@ public abstract class XYChart extends AbstractChart {
     boolean showGridX = mRenderer.isShowGridX();
     boolean showCustomTextGrid = mRenderer.isShowCustomTextGrid();
     if (showLabels || showGridX) {
-      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
-      Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
+      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels(), mRenderer.getXLabelMinimumDistance()));
+      double[] minimumDistances = new double[maxScaleNumber];
+      for (int i = 0; i < maxScaleNumber; i++) {
+        minimumDistances[i] = mRenderer.getYLabelMinimumDistance(i);
+      }
+      Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber, minimumDistances);
 
       int xLabelsLeft = left;
       if (showLabels) {
@@ -444,15 +448,15 @@ public abstract class XYChart extends AbstractChart {
     }
   }
 
-  protected List<Double> getXLabels(double min, double max, int count) {
-    return MathHelper.getLabels(min, max, count);
+  protected List<Double> getXLabels(double min, double max, int count, double minimumDistance) {
+    return MathHelper.getLabels(min, max, count, minimumDistance);
   }
 
-  protected Map<Integer, List<Double>> getYLabels(double[] minY, double[] maxY, int maxScaleNumber) {
+  protected Map<Integer, List<Double>> getYLabels(double[] minY, double[] maxY, int maxScaleNumber, double[] minimumDistance) {
     Map<Integer, List<Double>> allYLabels = new HashMap<Integer, List<Double>>();
     for (int i = 0; i < maxScaleNumber; i++) {
       allYLabels.put(i,
-          getValidLabels(MathHelper.getLabels(minY[i], maxY[i], mRenderer.getYLabels())));
+          getValidLabels(MathHelper.getLabels(minY[i], maxY[i], mRenderer.getYLabels(), minimumDistance[i])));
     }
     return allYLabels;
   }
