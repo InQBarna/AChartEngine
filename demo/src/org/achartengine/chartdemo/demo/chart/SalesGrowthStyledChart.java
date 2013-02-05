@@ -84,6 +84,8 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     xyRenderer.setFillOutsideLineGradient(true);
     xyRenderer.setFillOutsideLineColor(0x80000000);
     xyRenderer.setFillOutsideLineColorBottom(0xff0000ff);
+    xyRenderer.setPointStyle(PointStyle.CIRCLE);
+    xyRenderer.setPointStrokeWidth(3);
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MMM yyyy");
   }

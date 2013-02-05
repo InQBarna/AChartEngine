@@ -39,6 +39,8 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private boolean gradient = false;
   /** The point style. */
   private PointStyle mPointStyle = PointStyle.POINT;
+  /** The point stroke width */
+  private float pointStrokeWidth = 1;
   /** The chart line width. */
   private float mLineWidth = 1;
 
@@ -207,6 +209,24 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    */
   public void setPointStyle(PointStyle style) {
     mPointStyle = style;
+  }
+
+  /**
+   * Returns the point stroke width in pixels.
+   * 
+   * @return the point stroke width in pixels
+   */
+  public float getPointStrokeWidth() {
+    return pointStrokeWidth;
+  }
+
+  /**
+   * Sets the point stroke width in pixels.
+   * 
+   * @param strokeWidth the point stroke width in pixels
+   */
+  public void setPointStrokeWidth(float strokeWidth) {
+    this.pointStrokeWidth = strokeWidth;
   }
 
   /**
