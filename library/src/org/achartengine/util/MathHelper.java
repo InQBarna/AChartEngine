@@ -124,8 +124,9 @@ public class MathHelper {
   }
 
   /**
-   * Given a number, round up to the nearest power of ten times 1, 2, or 5. The
-   * argument must be strictly positive.
+   * Given a number, round up to the nearest power of ten times 1, 2, or 5.
+   * 
+   * @param val the number, it must be strictly positive
    */
   private static double roundUp(final double val) {
     int exponent = (int) Math.floor(Math.log10(val));
