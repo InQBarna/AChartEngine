@@ -108,6 +108,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private double mXLabelMinimumDistance = 0;
   /** The minimum distance between two labels in the axis Y */
   private double[] mYLabelMinimumDistance;
+  /** The maximum zoom permitted in the axis X */
+  private double mXZoomMax;
+  /** The maximum zoom permitted in the axis Y */
+  private double mYZoomMax;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -1259,5 +1263,55 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   public int getScalesCount() {
     return scalesCount;
+  }
+
+  /**
+   * Returns the maximum zoom permitted in the axis X.
+   * 
+   * @return the maximum zoom permitted in the axis X
+   * 
+   * @see #setXZoomMax(double)
+   */
+  public double getXZoomMax() {
+    return mXZoomMax;
+  }
+
+  /**
+   * Sets the maximum zoom permitted in the axis X.
+   * 
+   * This function prevent that the distance between {@link #getXAxisMin()} and
+   * {@link #getXAxisMax()} can't be greater or equal than
+   * <code>mXZoomMax</code>
+   * 
+   * @param mXZoomMax the maximum distance permitted between
+   *          {@link #getXAxisMin()} and {@link #getXAxisMax()}.
+   */
+  public void setXZoomMax(double mXZoomMax) {
+    this.mXZoomMax = mXZoomMax;
+  }
+
+  /**
+   * Returns the maximum zoom permitted in the axis Y.
+   * 
+   * @return the maximum zoom permitted in the axis Y
+   * 
+   * @see #setYZoomMax(double)
+   */
+  public double getYZoomMax() {
+    return mYZoomMax;
+  }
+
+  /**
+   * Sets the maximum zoom permitted in the axis Y.
+   * 
+   * This function prevent that the distance between {@link #getYAxisMin()} and
+   * {@link #getYAxisMax()} can't be greater or equal than
+   * <code>mYZoomMax</code>
+   * 
+   * @param mYZoomMax the maximum distance permitted between
+   *          {@link #getYAxisMin()} and {@link #getYAxisMax()}
+   */
+  public void setYZoomMax(double mYZoomMax) {
+    this.mYZoomMax = mYZoomMax;
   }
 }

@@ -80,6 +80,7 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     renderer.setYLabels(10);
     renderer.setXLabelMinimumDistance(3. * 30. * 24. * 60. * 60. * 1000.);
     renderer.setYLabelMinimumDistance(0.01, 0);
+    renderer.setXZoomMax(3. * 30. * 24. * 60. * 60. * 1000.);
     XYSeriesRenderer xyRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
     xyRenderer.setFillOutsideLine(FillOutsideLine.BELOW);
     xyRenderer.setFillOutsideLineGradient(true);
@@ -90,5 +91,4 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MMM yyyy");
   }
-
 }
