@@ -413,7 +413,7 @@ public abstract class XYChart extends AbstractChart {
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
               y + mRenderer.getChartTitleTextSize(), paint, 0);
         } else if (or == Orientation.VERTICAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - size + mRenderer.getXLabelsPadding() , paint, -90);
+          drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
           drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + size, top + height / 2, paint, 0);
@@ -421,10 +421,10 @@ public abstract class XYChart extends AbstractChart {
       }
     }
     if (or == Orientation.HORIZONTAL) {
-      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
+      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(), width, height, legendSize, paint, false);
     } else if (or == Orientation.VERTICAL) {
       transform(canvas, angle, true);
-      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
+      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(), width, height, legendSize, paint, false);
       transform(canvas, angle, false);
     }
     if (mRenderer.isShowAxes()) {
