@@ -85,50 +85,105 @@ public class LineChart extends XYChart {
   @Override
   public void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    int length = points.size();
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     float lineWidth = paint.getStrokeWidth();
     paint.setStrokeWidth(renderer.getLineWidth());
-    final FillOutsideLine fillOutsideLine = renderer.getFillOutsideLine();
-    if (fillOutsideLine != FillOutsideLine.NONE) {
-      paint.setColor(renderer.getFillBelowLineColor());
-      // TODO: find a way to do area charts without duplicating data
-      List<Float> fillPoints = new ArrayList<Float>(points);
-      final float referencePoint;
-      switch (fillOutsideLine) {
-      case INTEGRAL:
-        referencePoint = yAxisValue;
-        break;
-      case BELOW:
-        referencePoint = bottom;
-        break;
-      case ABOVE:
-        referencePoint = top;
-        break;
-      default:
-        throw new RuntimeException("You have added a new type of filling but have not implemented.");
-      }
-      fillPoints.set(0, points.get(0) + 1);
-      fillPoints.add(fillPoints.get(length - 2));
-      fillPoints.add(referencePoint);
-      fillPoints.add(fillPoints.get(0));
-      fillPoints.add(fillPoints.get(length + 1));
-      for (int i = 0; i < length + 4; i += 2) {
-        if (fillPoints.get(i + 1) < 0) {
-          fillPoints.set(i + 1, 0f);
+    final FillOutsideLine[] fillOutsideLine = renderer.getFillOutsideLine();
+
+    for (FillOutsideLine fill : fillOutsideLine) {
+      if (fill != FillOutsideLine.NONE) {
+        // TODO: find a way to do area charts without duplicating data
+        List<Float> fillPoints = new ArrayList<Float>(points);
+        final float referencePoint;
+        switch (fill) {
+        case BOUNDS_ALL:
+          referencePoint = yAxisValue;
+          break;
+        case BOUNDS_BELOW:
+          referencePoint = yAxisValue;
+          break;
+        case BOUNDS_ABOVE:
+          referencePoint = yAxisValue;
+          break;
+        case BELOW:
+          referencePoint = canvas.getHeight();
+          break;
+        case ABOVE:
+          referencePoint = 0;
+          break;
+        default:
+          throw new RuntimeException(
+              "You have added a new type of filling but have not implemented.");
         }
-      }
-      paint.setStyle(Style.FILL);
-      boolean gradient = renderer.isFillOutsideLineGradient();
-      Shader shader = null;
-      if (gradient) {
-        shader = paint.getShader();
-        paint.setShader(new LinearGradient(0, top, 0, bottom, renderer.getFillOutsideLineColor(),
-            renderer.getFillOutsideLineColorBottom(), TileMode.CLAMP));
-      }
-      drawPath(canvas, fillPoints, paint, true);
-      if (gradient) {
-        paint.setShader(shader);
+        if (fill == FillOutsideLine.BOUNDS_ABOVE || fill == FillOutsideLine.BOUNDS_BELOW) {
+          List<Float> boundsPoints = new ArrayList<Float>();
+          boolean add = false;
+          if (fill == FillOutsideLine.BOUNDS_ABOVE && fillPoints.get(1) < referencePoint
+              || fill == FillOutsideLine.BOUNDS_BELOW && fillPoints.get(1) > referencePoint) {
+            boundsPoints.add(fillPoints.get(0));
+            boundsPoints.add(fillPoints.get(1));
+            add = true;
+          }
+
+          for (int i = 3; i < fillPoints.size(); i += 2) {
+            float prevValue = fillPoints.get(i - 2);
+            float value = fillPoints.get(i);
+
+            if (prevValue < referencePoint && value > referencePoint || prevValue > referencePoint
+                && value < referencePoint) {
+              float prevX = fillPoints.get(i - 3);
+              float x = fillPoints.get(i - 1);
+              boundsPoints.add(prevX + (x - prevX) * (referencePoint - prevValue)
+                  / (value - prevValue));
+              boundsPoints.add(referencePoint);
+              if (fill == FillOutsideLine.BOUNDS_ABOVE && value > referencePoint
+                  || fill == FillOutsideLine.BOUNDS_BELOW && value < referencePoint) {
+                i += 2;
+                add = false;
+              } else {
+                boundsPoints.add(x);
+                boundsPoints.add(value);
+                add = true;
+              }
+            } else {
+              if (add || fill == FillOutsideLine.BOUNDS_ABOVE && value < referencePoint
+                  || fill == FillOutsideLine.BOUNDS_BELOW && value > referencePoint) {
+                boundsPoints.add(fillPoints.get(i - 1));
+                boundsPoints.add(value);
+              }
+            }
+          }
+
+          fillPoints.clear();
+          fillPoints.addAll(boundsPoints);
+        }
+        int length = fillPoints.size();
+        fillPoints.set(0, fillPoints.get(0) + 1);
+        fillPoints.add(fillPoints.get(length - 2));
+        fillPoints.add(referencePoint);
+        fillPoints.add(fillPoints.get(0));
+        fillPoints.add(fillPoints.get(length + 1));
+        for (int i = 0; i < length + 4; i += 2) {
+          if (fillPoints.get(i + 1) < 0) {
+            fillPoints.set(i + 1, 0f);
+          }
+        }
+
+        paint.setStyle(Style.FILL);
+        boolean gradient = fill.isGradient();
+        Shader shader = null;
+        if (gradient) {
+          shader = paint.getShader();
+          paint.setShader(new LinearGradient(0, top, 0, bottom,
+              fill.getColor(),
+              fill.getColor2(), TileMode.CLAMP));
+        } else {
+          paint.setColor(fill.getColor());
+        }
+        drawPath(canvas, fillPoints, paint, true);
+        if (gradient) {
+          paint.setShader(shader);
+        }
       }
     }
     paint.setColor(seriesRenderer.getColor());

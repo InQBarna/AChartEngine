@@ -82,10 +82,11 @@ public class SalesGrowthStyledChart extends AbstractDemoChart {
     renderer.setYLabelMinimumDistance(0.01, 0);
     renderer.setXZoomMax(3. * 30. * 24. * 60. * 60. * 1000.);
     XYSeriesRenderer xyRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
-    xyRenderer.setFillOutsideLine(FillOutsideLine.BELOW);
-    xyRenderer.setFillOutsideLineGradient(true);
-    xyRenderer.setFillOutsideLineColor(0x80000000);
-    xyRenderer.setFillOutsideLineColorBottom(0xff0000ff);
+    FillOutsideLine f = FillOutsideLine.BELOW;
+    f.setGradient(true);
+    f.setColor(0x80000000);
+    f.setColor2(0xff0000ff);
+    xyRenderer.addFillOutsideLine(f);
     xyRenderer.setPointStyle(PointStyle.CIRCLE);
     xyRenderer.setPointStrokeWidth(3);
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
