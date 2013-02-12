@@ -756,8 +756,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public float getBarWidth() {
     return mBarWidth;
   }
-  
-  /** 
+
+  /**
    * Sets the bar chart item constant width in pixels.
    * 
    * @param width width in pixels
@@ -765,8 +765,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setBarWidth(float width) {
     mBarWidth = width;
   }
-  
-  
+
   /**
    * Returns the enabled state of the pan on at least one axis.
    * 
